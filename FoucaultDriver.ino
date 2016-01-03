@@ -1,10 +1,25 @@
 /*
-FOUCAULT DRIVER
-      BY
- DAVID STEUBER
+                        FOUCAULT DRIVER
+                              BY
+                         DAVID STEUBER
+                           (C) 2015
 
   Use a photoresistor (light sensor) to control the magnet
   driving a Foucault Pendulum.
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 Hardware connections:
 
@@ -18,7 +33,7 @@ Hardware connections:
     of the two resistors. The output of the voltage divider
     (connected to A0) will vary with the light level.
     
-  LED:
+  Yellow LED for light level indication:
   
     Connect the positive side (long leg) of the LED to
     digital pin 9. (To vary the brightness, this pin must
@@ -30,15 +45,23 @@ Hardware connections:
 
     Connect the other side of the resistor to GND.
 
+  Green LED for detecting change in light level:
+
+    Connect the positive side (long leg) of the LED to
+    digital pin 12.
+
+    Connect the negative side of the LED (short leg) to a
+    330 Ohm resistor
+
 */
 
 
 // As usual, we'll create constants to name the pins we're using.
 // This will make it easier to follow the code below.
 
-const int sensorPin = 0;
-const int ledPin = 9;
-const int indicator = 12;
+const int sensorPin = 0;         // For photoresistor
+const int ledPin = 9;            // For light level indicator
+const int indicator = 12;        // For light change (detecting the bob passing) indicator
 
 void setup()
 {
