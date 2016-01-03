@@ -53,6 +53,14 @@ Hardware connections:
     Connect the negative side of the LED (short leg) to a
     330 Ohm resistor
 
+  Blue LED for showing power to magnet:
+
+    Connect the positive side (long leg) of the LED to
+    digital pin 7.
+
+    Connect the negative side of the LED (short leg) to a
+    330 Ohm resistor
+
 */
 
 
@@ -62,6 +70,7 @@ Hardware connections:
 const int sensorPin = 0;         // For photoresistor
 const int ledPin = 9;            // For light level indicator
 const int indicator = 12;        // For light change (detecting the bob passing) indicator
+const int magnet = 7;            // For showing when the magnet is on
 
 void setup()
 {
@@ -70,6 +79,7 @@ void setup()
   // Serial.begin(9600); // for debug output
   pinMode(ledPin, OUTPUT);
   pinMode(indicator, OUTPUT);
+  pinMode(magnet, OUTPUT);
 }
 
 
@@ -85,7 +95,7 @@ void loop()
     else
       Serial.println("B");
     */
-      
+    magnetControl(sensorValue);  
     flashIndicator();  
   }
   delay(1); // let's just slow things down a bit for stability
@@ -162,6 +172,39 @@ void flashIndicator()
   delay(indicatorDuration);
   digitalWrite(indicator, LOW);
   delay(indicatorDuration);
+}
+
+void magnetControl(int toggle)
+{
+  const int swings = 16;
+  static int swing = 0;
+  static unsigned long approachTime = 0;
+  static unsigned long departTime = 0;
+  static unsigned long hangTime = 0;
+  static unsigned long runningHangTimes = 0;
+  unsigned long currentTime = millis();
+  
+  if (toggle > 0)
+  {
+    approachTime = currentTime;
+    swing++;
+    digitalWrite(magnet, HIGH);
+    delay(hangTime / 2);
+    digitalWrite(magnet, LOW);
+  }
+  else
+  {
+    departTime = currentTime;
+    runningHangTimes += departTime - approachTime;
+    digitalWrite(magnet, LOW);
+  }
+
+  if (swing == swings)
+  {
+    hangTime = runningHangTimes / swing;
+    runningHangTimes = 0;
+    swing = 0;
+  }
 }
 
 
