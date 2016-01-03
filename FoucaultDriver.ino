@@ -76,7 +76,7 @@ void setup()
 {
   // We'll set up the LED pin to be an output.
   // (We don't need to do anything special to use the analog input.)
-  // Serial.begin(9600); // for debug output
+  Serial.begin(9600); // for debug output
   pinMode(ledPin, OUTPUT);
   pinMode(indicator, OUTPUT);
   pinMode(magnet, OUTPUT);
@@ -89,14 +89,14 @@ void loop()
   
   if (sensorValue = readLightLevel())
   {
-    /*
+    
     if (sensorValue > 0)
       Serial.println("A");
     else
       Serial.println("B");
-    */
+    
     magnetControl(sensorValue);  
-    flashIndicator();  
+    //flashIndicator();  
   }
   delay(1); // let's just slow things down a bit for stability
 }
@@ -104,6 +104,7 @@ void loop()
 int readLightLevel()
 {
   const int numLevels = 16;
+  const int sensitivety = 134;
   static int averageLevels[numLevels];
   static int runningTotal = 0;
   static int averageLevelsIndex = 0;
@@ -125,9 +126,9 @@ int readLightLevel()
     if (averageLevelsIndex == numLevels)
       averageLevelsIndex = 0;
 
-    if (averageLevelsIndex > 0 && averageLevels[averageLevelsIndex] > (averageLevels[averageLevelsIndex - 1] + 8))
+    if (averageLevelsIndex > 0 && averageLevels[averageLevelsIndex] > (averageLevels[averageLevelsIndex - 1] + sensitivety))
       retVal = 1; // bob is going
-    if (averageLevelsIndex > 0 && (averageLevels[averageLevelsIndex] + 8) < averageLevels[averageLevelsIndex - 1])
+    if (averageLevelsIndex > 0 && (averageLevels[averageLevelsIndex] + sensitivety) < averageLevels[averageLevelsIndex - 1])
       retVal = -1; // bob is comming
     if (averageLevels[numLevels -1] == 0)
       retVal = 0;  // averageLevels buffer is not full yet
@@ -166,12 +167,12 @@ void autoTune(int lightLevel)
 void flashIndicator()
 {
   // flash the indicator LED when lightLevel is changing
-  const unsigned long indicatorDuration = 50;
+  const unsigned long indicatorDuration = 5;
     
   digitalWrite(indicator, HIGH);
   delay(indicatorDuration);
   digitalWrite(indicator, LOW);
-  delay(indicatorDuration);
+//  delay(indicatorDuration);
 }
 
 void magnetControl(int toggle)
@@ -189,8 +190,8 @@ void magnetControl(int toggle)
     approachTime = currentTime;
     swing++;
     digitalWrite(magnet, HIGH);
-    delay(hangTime / 2);
-    digitalWrite(magnet, LOW);
+//    delay(hangTime / 2);
+//    digitalWrite(magnet, LOW);
   }
   else
   {
@@ -205,6 +206,7 @@ void magnetControl(int toggle)
     runningHangTimes = 0;
     swing = 0;
   }
+  Serial.println(hangTime);
 }
 
 
