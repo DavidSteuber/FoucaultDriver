@@ -6,6 +6,14 @@ The current state of this project is not useable. I will remove this bit when it
 If you don't know what a Foucault Pendulum is, visit this wikipedia page:
 
   https://en.wikipedia.org/wiki/Foucault_pendulum
+
+See also:
+
+  http://www.redorbit.com/news/science/1947131/how_to_build_a_foucault_pendulum_for_any_classroom/
+  https://neil.fraser.name/news/2011/01/07/
+
+Also included in this project are PDF documents disucssing the Foucault Pendulum. They are copyrighted
+by their respective authors. See copyright in the PDF files for information.
   
 The C code in this project is written in the Arduino IDE for an UNO compatible board. The pendulum itself currently resides in my basement. Air drag stops it from swinging inside of an hour or so. The purpose of this code is to drive a circuit that will control an electromagnet underneath the bob of the pendulum to give it a small "kick" periodically to keep it going.
 

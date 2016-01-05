@@ -63,7 +63,10 @@
 const int sensorPin = 0;         // For photoresistor
 const int ledPin = 9;            // For light level indicator
 const int magnet = 7;            // For turning the magnet on and off. The green led indicates magnet state
-const int SENSITIVITY = 34;     // Sensitivity to changing light level used by readLightLevel()
+
+// Constants to be used by the sketch
+
+const int SENSITIVITY = 34;      // Sensitivity to changing light level used by readLightLevel()
 const int APPROACHING_BDC = 1;   // for the magnetControl() function
 const int LEAVING_BDC = -1;      // for the magnetControl() function
 const int MAX_DUTY = 200;        // The maximum time the magnet will be turned on by the magnetControl() function
@@ -82,13 +85,7 @@ void loop()
   
   if (sensorValue = readLightLevel())
   {
-    
-    if (sensorValue > 0)
-      Serial.println("A");
-    else
-      Serial.println("B");
-    
-    magnetControl(sensorValue);  
+     magnetControl(sensorValue);  
   }
   // The following delay is actually needed for this to work
   delay(1);
